@@ -73,6 +73,7 @@ fun FocusTimerApp(
     val showConfetti by viewModel.showConfetti.collectAsState()
     val isFullscreen by viewModel.isFullscreen.collectAsState()
     val isAlarmRinging by viewModel.isAlarmRinging.collectAsState()
+    val isRunning by viewModel.isRunning.collectAsState()
 
     // Dialog states
     var showAddSubjectDialog by remember { mutableStateOf(false) }
@@ -96,8 +97,8 @@ fun FocusTimerApp(
         }
     }
 
-    LaunchedEffect(Unit) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+    LaunchedEffect(isRunning) {
+        if (isRunning && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             val permission = android.Manifest.permission.POST_NOTIFICATIONS
             val hasPermission = androidx.core.content.ContextCompat.checkSelfPermission(
                 context, permission
@@ -113,7 +114,7 @@ fun FocusTimerApp(
         activity?.requestedOrientation = if (isFullscreen) {
             android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         } else {
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
     }
 
@@ -123,8 +124,6 @@ fun FocusTimerApp(
             viewModel.clearToast()
         }
     }
-
-
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -231,7 +230,7 @@ fun FocusTimerApp(
                 showAddSubjectDialog = false
                 newSubjectName = ""
             },
-            title = { Text("Add New Subject", color = GoldBright, ) },
+            title = { Text("Add New Subject", color = GoldBright) },
             text = {
                 Column {
                     OutlinedTextField(
@@ -301,7 +300,7 @@ fun FocusTimerApp(
                 subSubjectTargetSubject = null
                 newSubSubjectName = ""
             },
-            title = { Text("Add Sub-Subject for $parent", color = GoldBright, ) },
+            title = { Text("Add Sub-Subject for $parent", color = GoldBright) },
             text = {
                 OutlinedTextField(
                     value = newSubSubjectName,
@@ -349,7 +348,7 @@ fun FocusTimerApp(
                 showAddWorkTypeDialog = false
                 newWorkTypeName = ""
             },
-            title = { Text("Add Work Type", color = GoldBright, ) },
+            title = { Text("Add Work Type", color = GoldBright) },
             text = {
                 OutlinedTextField(
                     value = newWorkTypeName,
@@ -480,6 +479,10 @@ fun FocusTimerApp(
         val selectedSubject by viewModel.selectedSubject.collectAsState()
         AlertDialog(
             onDismissRequest = { viewModel.stopAlarm() },
+            properties = androidx.compose.ui.window.DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            ),
             title = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
