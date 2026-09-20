@@ -619,9 +619,7 @@ class FocusViewModel(application: Application) : AndroidViewModel(application) {
                 getApplication<Application>().startService(serviceIntent)
             }
         } catch (_: Exception) {
-            if (!_isMuted.value) {
-                playAlertSound()
-            }
+            playAlertSound()
             vibratePhone(800)
         }
 

@@ -202,7 +202,8 @@ fun HistorySettingsScreen(
             style = TextStyle(
                 brush = GoldGradientBrush,
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                
             ),
             modifier = Modifier.padding(bottom = 12.dp, top = 4.dp)
         )
@@ -230,7 +231,8 @@ fun HistorySettingsScreen(
                             text = title,
                             color = if (isSelected) GoldBright else TextDim,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
+                            
                         )
                     }
                 )
@@ -351,7 +353,8 @@ fun HistorySettingsScreen(
                                         style = TextStyle(
                                             brush = GoldGradientBrush,
                                             fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold
+                                            fontWeight = FontWeight.Bold,
+                                            
                                         )
                                     )
                                 }
@@ -536,7 +539,7 @@ fun HistorySettingsScreen(
 
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            // Two action buttons: Export JSON & Import JSON
+                            // Two action buttons: Download JSON (Backup) & Restore JSON (Upload)
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -975,7 +978,8 @@ fun HistorySettingsScreen(
                                 style = TextStyle(
                                     brush = GoldGradientBrush,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    
                                 )
                             )
                             Spacer(modifier = Modifier.height(10.dp))
@@ -1068,7 +1072,8 @@ fun HistorySettingsScreen(
                                 style = TextStyle(
                                     brush = GoldGradientBrush,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    
                                 )
                             )
                             Spacer(modifier = Modifier.height(10.dp))

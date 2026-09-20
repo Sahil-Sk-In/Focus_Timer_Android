@@ -125,6 +125,8 @@ fun FocusTimerApp(
         }
     }
 
+
+
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             bottomBar = {
@@ -230,7 +232,7 @@ fun FocusTimerApp(
                 showAddSubjectDialog = false
                 newSubjectName = ""
             },
-            title = { Text("Add New Subject", color = GoldBright) },
+            title = { Text("Add New Subject", color = GoldBright, ) },
             text = {
                 Column {
                     OutlinedTextField(
@@ -300,7 +302,7 @@ fun FocusTimerApp(
                 subSubjectTargetSubject = null
                 newSubSubjectName = ""
             },
-            title = { Text("Add Sub-Subject for $parent", color = GoldBright) },
+            title = { Text("Add Sub-Subject for $parent", color = GoldBright, ) },
             text = {
                 OutlinedTextField(
                     value = newSubSubjectName,
@@ -348,7 +350,7 @@ fun FocusTimerApp(
                 showAddWorkTypeDialog = false
                 newWorkTypeName = ""
             },
-            title = { Text("Add Work Type", color = GoldBright) },
+            title = { Text("Add Work Type", color = GoldBright, ) },
             text = {
                 OutlinedTextField(
                     value = newWorkTypeName,

@@ -111,6 +111,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
 
 // ============================================================
 // DATA MODEL FOR MILESTONE BADGES
@@ -2105,10 +2106,10 @@ private fun ExamGoalEditDialog(
     onDismiss: () -> Unit,
     onSave: (name: String, targetDate: String, targetHours: Double, subjectScope: Set<String>) -> Unit
 ) {
-    var name by remember { mutableStateOf(currentGoal.examName) }
-    var targetDate by remember { mutableStateOf(currentGoal.targetDate) }
-    var targetHoursText by remember { mutableStateOf(currentGoal.targetHours.toString()) }
-    var selectedScope by remember { mutableStateOf(currentGoal.subjectScope) }
+    var name by remember(currentGoal) { mutableStateOf(currentGoal.examName) }
+    var targetDate by remember(currentGoal) { mutableStateOf(currentGoal.targetDate) }
+    var targetHoursText by remember(currentGoal) { mutableStateOf(currentGoal.targetHours.toString()) }
+    var selectedScope by remember(currentGoal) { mutableStateOf(currentGoal.subjectScope) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -2850,3 +2851,4 @@ private fun SubjectRadarCanvas(
 }
 
 private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
+
