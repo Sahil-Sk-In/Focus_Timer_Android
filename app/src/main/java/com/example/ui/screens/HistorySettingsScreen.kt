@@ -202,8 +202,7 @@ fun HistorySettingsScreen(
             style = TextStyle(
                 brush = GoldGradientBrush,
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                
+                fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.padding(bottom = 12.dp, top = 4.dp)
         )
@@ -231,8 +230,7 @@ fun HistorySettingsScreen(
                             text = title,
                             color = if (isSelected) GoldBright else TextDim,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            fontSize = 13.sp,
-                            
+                            fontSize = 13.sp
                         )
                     }
                 )
@@ -353,8 +351,7 @@ fun HistorySettingsScreen(
                                         style = TextStyle(
                                             brush = GoldGradientBrush,
                                             fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            
+                                            fontWeight = FontWeight.Bold
                                         )
                                     )
                                 }
@@ -539,7 +536,7 @@ fun HistorySettingsScreen(
 
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            // Two action buttons: Download JSON (Backup) & Restore JSON (Upload)
+                            // Two action buttons: Export JSON & Import JSON
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -566,7 +563,7 @@ fun HistorySettingsScreen(
                                                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                                 }
                                                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
-                                                    context.startActivity(Intent.createChooser(sendIntent, "Download JSON (Backup)"))
+                                                    context.startActivity(Intent.createChooser(sendIntent, "Export JSON (Backup)"))
                                                 }
                                             } catch (e: Exception) {
                                                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
@@ -583,9 +580,9 @@ fun HistorySettingsScreen(
                                         .heightIn(min = 52.dp)
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text("Download JSON", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                                        Text("Export JSON", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                                         Spacer(modifier = Modifier.height(2.dp))
-                                        Text("(Backup)", fontSize = 10.sp, color = TextDim)
+                                        Text("(Share / Save)", fontSize = 10.sp, color = TextDim)
                                     }
                                 }
 
@@ -599,9 +596,9 @@ fun HistorySettingsScreen(
                                         .heightIn(min = 52.dp)
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text("Restore JSON", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                                        Text("Import JSON", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                                         Spacer(modifier = Modifier.height(2.dp))
-                                        Text("(Upload)", fontSize = 10.sp, color = TextDim)
+                                        Text("(Merge & Restore)", fontSize = 10.sp, color = TextDim)
                                     }
                                 }
                             }
@@ -978,8 +975,7 @@ fun HistorySettingsScreen(
                                 style = TextStyle(
                                     brush = GoldGradientBrush,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    
+                                    fontWeight = FontWeight.Bold
                                 )
                             )
                             Spacer(modifier = Modifier.height(10.dp))
@@ -1072,8 +1068,7 @@ fun HistorySettingsScreen(
                                 style = TextStyle(
                                     brush = GoldGradientBrush,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    
+                                    fontWeight = FontWeight.Bold
                                 )
                             )
                             Spacer(modifier = Modifier.height(10.dp))
@@ -1599,7 +1594,12 @@ fun HistorySettingsScreen(
             title = { Text("Restore JSON Backup", color = GoldBright) },
             text = {
                 Column {
-                    Text("Select a backup file from your phone or paste valid JSON string below:", color = TextDim, fontSize = 12.sp)
+                    Text(
+                        text = "Select a backup JSON file or paste JSON text below. New sessions from the backup will be safely merged into your history without deleting or overwriting existing sessions.",
+                        color = TextDim,
+                        fontSize = 12.sp,
+                        lineHeight = 17.sp
+                    )
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {
@@ -1640,7 +1640,7 @@ fun HistorySettingsScreen(
                             try {
                                 val result = viewModel.repository.importFromJson(jsonImportText)
                                 viewModel.reloadSettingsAndExamGoal()
-                                viewModel.showToast("Restore successful: ${result.studyCount} study, ${result.nonStudyCount} non-study added!")
+                                viewModel.showToast("Merge successful: ${result.studyCount} study, ${result.nonStudyCount} non-study added!")
                                 showImportDialog = false
                                 jsonImportText = ""
                             } catch (e: Exception) {
@@ -1650,7 +1650,7 @@ fun HistorySettingsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = GoldAccent, contentColor = BgDark)
                 ) {
-                    Text("Restore")
+                    Text("Merge & Restore")
                 }
             },
             dismissButton = {
@@ -1729,36 +1729,39 @@ private fun SessionHistoryItem(
                 )
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 Text(
                     text = "${session.minutes} min",
                     color = GoldLight,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(end = 6.dp)
+                    modifier = Modifier.padding(end = 4.dp)
                 )
 
                 IconButton(
                     onClick = onEdit,
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(44.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit Session",
                         tint = GoldAccent,
-                        modifier = Modifier.size(15.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                 }
 
                 IconButton(
                     onClick = onDelete,
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(44.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Close,
+                        imageVector = Icons.Default.Delete,
                         contentDescription = "Delete Session",
-                        tint = TextDim,
-                        modifier = Modifier.size(16.dp)
+                        tint = DangerRed.copy(alpha = 0.85f),
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
